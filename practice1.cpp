@@ -69,9 +69,9 @@ std::vector<std::string> read_file(std::string& file_path) {
     int num_mat = 0, n1 = 0, n2 = 0, m1 = 0, m2 = 0;
     int row1 = 0, row2 = 0, col1 = 0, col2 = 0;
 
-    // if (!ifs.is_open()) {
-    //     throw std::invalid_argument("Failed to open file.");
-    // }
+    if (!ifs.is_open()) {
+        throw std::invalid_argument("Failed to open file.");
+    }
 
     int index = 0;
     while (std::getline(ifs, line)) {
@@ -270,7 +270,7 @@ int main() {
         test(i);
     }
     
-    int file_index = 5;
+    int file_index = 7;
     std::string file_path = "D:/C++/matrix_operation/input0" + std::to_string(file_index) + ".txt";
     buffer = read_file(file_path);
 
