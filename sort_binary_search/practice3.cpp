@@ -4,12 +4,13 @@
 struct Node {
     std::string tag;
     int value;
-    struct Node* left, *right;
+    struct Node *left, *right;
 };
 
 class BinaryTree {
 private:
-    struct Node *root;
+    struct Node* root;
+    struct Node* return_node;
 
 public:
     BinaryTree() {
@@ -58,12 +59,13 @@ public:
         if (ptr != nullptr) {
             if (key == ptr->value) {
                 std::cout << "Found " << ptr->value << std::endl;
+                // return_node = ptr;
                 return true;
             }
             if (key <= ptr->value) {
                 return search(key, ptr->left);
             } 
-            else {
+            else if (key > ptr->value) {
                 return search(key, ptr->right);
             }
         } 
@@ -73,6 +75,26 @@ public:
         }
         return false;
     }
+
+    // struct Node* search2(int key, struct Node* ptr) {
+    //     if (ptr != nullptr) {
+    //         if (key == ptr->value) {
+    //             std::cout << "Found " << ptr->value << std::endl;
+    //             return ptr;
+    //         }
+    //         if (key <= ptr->value) {
+    //             return search2(key, ptr->left);
+    //         } 
+    //         else {
+    //             return search2(key, ptr->right);
+    //         }
+    //     } 
+    //     else if (ptr == nullptr) {
+    //         std::cout << "\nCould not find " << key << std::endl;
+    //         return nullptr;
+    //     }
+    //     return nullptr;
+    // }
 
     void displayTree() {
         displayTree(root);
@@ -84,7 +106,15 @@ public:
             std::cout << ptr->tag << " " << ptr->value << std::endl;
             displayTree(ptr->right);
         }
-    };
+    }
+
+    void store_results(struct Node* ptr, std::ofstream& ofs) {
+        if (ptr != nullptr && ofs.is_open()) {
+            store_results(ptr->left, ofs);
+            ofs << ptr->tag << " " << ptr->value << "\n";
+            store_results(ptr->right, ofs);
+        }
+    }
     
     bool is_empty() {
         return root == nullptr;
@@ -92,6 +122,10 @@ public:
 
     struct Node* get_root() {
         return root;
+    }
+
+    struct Node* get_return_node() {
+        return return_node;
     }
     
     struct Node* emptyBST(struct Node* root) {
@@ -147,6 +181,7 @@ BinaryTree built_tree(std::string file_path, BinaryTree bin_tree) {
 int main() {
     // construct an empty tree
     BinaryTree bin_tree;
+    struct Node* root = bin_tree.get_root();
 
     // read data from file
     int file_index = 1;
@@ -166,12 +201,38 @@ int main() {
     std::cout << "\n";
     bin_tree.search(val);
     
+    // write results to a file
+    std::string out_file_name = "test" + std::to_string(file_index) + "_result.txt";
+    std::ofstream ofs(out_file_name);
+
+    
+    // bool isFound = bin_tree.search(val);
+    // if (isFound == true) {
+    //     struct Node* return_node = bin_tree.get_return_node();
+    //     ofs << "Found " << return_node->tag << " " << return_node->value << "\n\n";
+    // }
+    // else if (isFound == false) {
+    //     ofs << "Could not Found " << val << "\n\n";
+    // }
+    bin_tree.store_results(root, ofs);
+    
+
+    // struct Node* return_node = bin_tree.search2(val, root);
+    // if (return_node != nullptr) {
+    //     ofs << "Found " << return_node->tag << " " << return_node->value << "\n\n";
+    // }
+    // else if (return_node == nullptr) {
+    //     ofs << "Could not Found " << val << "\n\n";
+    // }
+    // bin_tree.store_results(root, ofs);
+
     std::cout << "\n";
     // std::cout << "sorted results: \n";
     bin_tree.displayTree();
     std::cout << "\n";
     
     // bin_tree.search(val);
+    ofs.close();
     return 0;
 }
 
