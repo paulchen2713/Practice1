@@ -1,2 +1,2 @@
 # matrix operations
-do the matrix transpose or matrix multiplication
+do matrix transpose or matrix multiplication
