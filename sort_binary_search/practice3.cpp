@@ -58,8 +58,8 @@ public:
     bool search(int key, struct Node* ptr) {
         if (ptr != nullptr) {
             if (key == ptr->value) {
-                std::cout << "Found " << ptr->value << std::endl;
-                // return_node = ptr;
+                std::cout << "Found " << ptr->tag << " " << ptr->value << std::endl;
+                return_node = ptr;
                 return true;
             }
             if (key <= ptr->value) {
@@ -76,25 +76,26 @@ public:
         return false;
     }
 
-    // struct Node* search2(int key, struct Node* ptr) {
-    //     if (ptr != nullptr) {
-    //         if (key == ptr->value) {
-    //             std::cout << "Found " << ptr->value << std::endl;
-    //             return ptr;
-    //         }
-    //         if (key <= ptr->value) {
-    //             return search2(key, ptr->left);
-    //         } 
-    //         else {
-    //             return search2(key, ptr->right);
-    //         }
-    //     } 
-    //     else if (ptr == nullptr) {
-    //         std::cout << "\nCould not find " << key << std::endl;
-    //         return nullptr;
-    //     }
-    //     return nullptr;
-    // }
+    std::string search2(int key, struct Node* ptr) {
+        if (ptr != nullptr) {
+            if (key == ptr->value) {
+                std::cout << "Found " << ptr->tag << " " << ptr->value << std::endl;
+                // return_node = ptr;
+                return ptr->tag;
+            }
+            if (key <= ptr->value) {
+                return search2(key, ptr->left);
+            } 
+            else {
+                return search2(key, ptr->right);
+            }
+        } 
+        else if (ptr == nullptr) {
+            std::cout << "\nCould not find " << key << std::endl;
+            return "";
+        }
+        return "";
+    }
 
     void displayTree() {
         displayTree(root);
@@ -109,7 +110,9 @@ public:
     }
 
     void store_results(struct Node* ptr, std::ofstream& ofs) {
-        if (ptr != nullptr && ofs.is_open()) {
+        if (!ofs.is_open()) throw std::invalid_argument("Failed to open file.");
+
+        if (ptr != nullptr) {
             store_results(ptr->left, ofs);
             ofs << ptr->tag << " " << ptr->value << "\n";
             store_results(ptr->right, ofs);
@@ -198,8 +201,8 @@ int main() {
 
     std::cout << "file path: " << file_path << "\n";
 
-    std::cout << "\n";
-    bin_tree.search(val);
+    // std::cout << "\n";
+    // bin_tree.search(val);
     
     // write results to a file
     std::string out_file_name = "test" + std::to_string(file_index) + "_result.txt";
@@ -214,17 +217,17 @@ int main() {
     // else if (isFound == false) {
     //     ofs << "Could not Found " << val << "\n\n";
     // }
-    bin_tree.store_results(root, ofs);
+    // bin_tree.store_results(root, ofs);
     
 
-    // struct Node* return_node = bin_tree.search2(val, root);
-    // if (return_node != nullptr) {
-    //     ofs << "Found " << return_node->tag << " " << return_node->value << "\n\n";
-    // }
-    // else if (return_node == nullptr) {
-    //     ofs << "Could not Found " << val << "\n\n";
-    // }
-    // bin_tree.store_results(root, ofs);
+    std::string tag = bin_tree.search2(val, root);
+    if (tag != "") {
+        ofs << "Found " << tag << " " << val << "\n\n";
+    }
+    else if (tag == "") {
+        ofs << "Could not Found " << val << "\n\n";
+    }
+    bin_tree.store_results(root, ofs);
 
     std::cout << "\n";
     // std::cout << "sorted results: \n";
