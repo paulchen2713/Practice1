@@ -1,6 +1,4 @@
-#include <iostream>
-#include <time.h>
-
+#include <bits/stdc++.h>
 // using namespace std;
 
 struct Node {
@@ -70,7 +68,7 @@ public:
             }
         } 
         else if (ptr == nullptr) {
-            std::cout << "Could not find " << key << std::endl;
+            std::cout << "\nCould not find " << key << std::endl;
             return false;
         }
         return false;
@@ -117,28 +115,62 @@ public:
     }
 };
 
-int main() {
-    const int num_elements = 6;
-    
-    BinaryTree bin_tree;
-    
-    // srand(time(NULL));
-    std::cout << "original values: \n";
-    for (int i = 0; i < num_elements; i++) {
-        int rand_val = rand() % 100; // Generate number between 0 to 99
-        std::string tag = "A" + std::to_string(i);
-        std::cout << tag << " " << rand_val << "\n";
-        bin_tree.insert(tag, rand_val);
+void read_file(std::string file_path) {
+    std::ifstream ifs(file_path);
+    std::string line;
+    while (std::getline(ifs, line)) {
+        std::stringstream stream(line);
+        std::string tag;
+        int value;
+        while (stream >> tag >> value) {
+            std::cout << tag << " " << value << "\n";
+        }
     }
     std::cout << "\n";
+}
+
+BinaryTree built_tree(std::string file_path, BinaryTree bin_tree) {
+    std::ifstream ifs(file_path);
+    std::string line;
+    while (std::getline(ifs, line)) {
+        std::stringstream stream(line);
+        std::string tag;
+        int value;
+        while (stream >> tag >> value) {
+            // std::cout << tag << " " << value << "\n";
+            bin_tree.insert(tag, value);
+        }
+    }
+    return bin_tree;
+}
+
+int main() {
+    // construct an empty tree
+    BinaryTree bin_tree;
+
+    // read data from file
+    int file_index = 1;
+    // std::cout << "please enter the file index (e.g. 1~4): ";
+    // std::cin >> file_index;
+     
+    std::string file_path = "D:/C++/sort_binary_search/Input" + std::to_string(file_index) + ".txt";
+    // std::cout << file_path << "\n";
+
+    bin_tree = built_tree(file_path, bin_tree);
+
+    int val = 754;
+    // std::cout << "please enter an integer to be searched: ";
+    // std::cin >> val;
+
+    std::cout << "\n";
+    bin_tree.search(val);
     
-    std::cout << "sorted results: \n";
+    std::cout << "\n";
+    // std::cout << "sorted results: \n";
     bin_tree.displayTree();
     std::cout << "\n";
     
-    int val = rand() % 100;
-    bin_tree.search(val);
-
+    // bin_tree.search(val);
     return 0;
 }
 
