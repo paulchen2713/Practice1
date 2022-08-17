@@ -4,7 +4,8 @@
 // using namespace std;
 
 struct Node {
-    int value, tag;
+    std::string tag;
+    int value;
     struct Node* left, *right;
 };
 
@@ -72,7 +73,7 @@ public:
             std::cout << "Could not find " << key << std::endl;
             return false;
         }
-        return nullptr;
+        return false;
     }
 
     void displayTree() {
@@ -82,7 +83,7 @@ public:
     void displayTree(struct Node* ptr) {
         if (ptr != nullptr) {
             displayTree(ptr->left);
-            std::cout << ptr->value << std::endl;
+            std::cout << ptr->tag << " " << ptr->value << std::endl;
             displayTree(ptr->right);
         }
     };
@@ -125,8 +126,9 @@ int main() {
     std::cout << "original values: \n";
     for (int i = 0; i < num_elements; i++) {
         int rand_val = rand() % 100; // Generate number between 0 to 99
-        std::cout << rand_val << "\n";
-        bin_tree.insert(rand_val);
+        std::string tag = "A" + std::to_string(i);
+        std::cout << tag << " " << rand_val << "\n";
+        bin_tree.insert(tag, rand_val);
     }
     std::cout << "\n";
     
