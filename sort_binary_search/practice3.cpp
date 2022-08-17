@@ -150,17 +150,18 @@ int main() {
 
     // read data from file
     int file_index = 1;
-    // std::cout << "please enter the file index (e.g. 1~4): ";
-    // std::cin >> file_index;
-     
+    std::cout << "please enter the file index (e.g. 1~4): ";
+    std::cin >> file_index;
+    
     std::string file_path = "D:/C++/sort_binary_search/Input" + std::to_string(file_index) + ".txt";
-    // std::cout << file_path << "\n";
 
     bin_tree = built_tree(file_path, bin_tree);
 
     int val = 754;
-    // std::cout << "please enter an integer to be searched: ";
-    // std::cin >> val;
+    std::cout << "please enter an integer to be searched: ";
+    std::cin >> val;
+
+    std::cout << "file path: " << file_path << "\n";
 
     std::cout << "\n";
     bin_tree.search(val);
@@ -174,4 +175,36 @@ int main() {
     return 0;
 }
 
+/*
+PS D:\C++\sort_binary_search> ./practice3.exe
+please enter the file index (e.g. 1~4): 1
+please enter an integer to be searched: 754
+file path: D:/C++/sort_binary_search/Input1.txt
+
+Found 754
+
+A11 40
+A13 61
+A17 62
+A5 139
+A23 148
+A18 183
+A7 223
+A19 280
+A14 295
+A21 356
+A8 357
+A10 421
+A15 520
+A20 534
+A9 620
+A3 630
+A16 666
+A2 751
+A1 754
+A22 779
+A6 856
+A12 911
+A4 944
+*/
 
