@@ -18,8 +18,8 @@ public:
     };
 
     void insert(std::string tag, int value) {
-        // struct Node *p = new Node;
-        struct Node* p = (struct Node*)calloc(1, sizeof(struct Node));
+        struct Node *p = new Node;
+        // struct Node* p = (struct Node*)calloc(1, sizeof(struct Node));
         struct Node* parent;
         
         p->tag = tag;
@@ -70,7 +70,7 @@ public:
             }
         } 
         else if (ptr == nullptr) {
-            std::cout << "\nCould not find " << key << std::endl;
+            std::cout << "Could not find " << key << std::endl;
             return false;
         }
         return false;
@@ -200,30 +200,30 @@ int main() {
     std::cout << "please enter an integer to be searched: ";
     std::cin >> val;
 
-    std::cout << "file path: " << file_path << "\n";
-
-    // std::cout << "\n";
-    // bin_tree.search(val);
+    std::cout << "Input File: " << file_path << "\n";
     
     // write results to a file
-    std::string out_file_name = "test" + std::to_string(file_index) + "_result.txt";
+    std::string out_file_name = "D:/C++/sort_binary_search/test" + std::to_string(file_index) + "_result.txt";
     std::ofstream ofs;
     ofs.open(out_file_name);
 
     // std::fstream ofs;
     // ofs.open(out_file_name, std::ios::out);
 
+    auto cout_buff = std::cout.rdbuf(); 
+    std::cout.rdbuf(ofs.rdbuf());
+
+
+    // bool isFound = bin_tree.search(val);
+    // if (isFound == true) {
+    //     struct Node* return_node = bin_tree.get_return_node();
+    //     ofs << "Found " << return_node->tag << " " << return_node->value << "\n\n";
+    // }
+    // else if (isFound == false) {
+    //     ofs << "Could not Found " << val << "\n\n";
+    // }
     
-    bool isFound = bin_tree.search(val);
-    if (isFound == true) {
-        struct Node* return_node = bin_tree.get_return_node();
-        ofs << "Found " << return_node->tag << " " << return_node->value << "\n\n";
-    }
-    else if (isFound == false) {
-        ofs << "Could not Found " << val << "\n\n";
-    }
-    
-    bin_tree.store_results(root, ofs);
+    // bin_tree.store_results(root, ofs);
 
     // std::string tag = bin_tree.search2(val, root);
     // if (tag != "") {
@@ -234,13 +234,20 @@ int main() {
     // }
     // bin_tree.store_results(root, ofs);
 
+    
+    bin_tree.search(val);
+
     std::cout << "\n";
     // std::cout << "sorted results: \n";
     bin_tree.displayTree();
-    std::cout << "\n";
+    // std::cout << "\n";
     
     // bin_tree.search(val);
-    // ofs.close();
+    std::cout.rdbuf(cout_buff);
+    ofs.close();
+
+    std::cout << "Output File: " << out_file_name << "\n\n";
+
     return 0;
 }
 
@@ -276,4 +283,3 @@ A6 856
 A12 911
 A4 944
 */
-
