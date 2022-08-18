@@ -109,6 +109,7 @@ public:
         }
     }
 
+    // void store_results(struct Node* ptr, std::fstream& ofs) {
     void store_results(struct Node* ptr, std::ofstream& ofs) {
         if (!ofs.is_open()) throw std::invalid_argument("Failed to open file.");
 
@@ -206,28 +207,32 @@ int main() {
     
     // write results to a file
     std::string out_file_name = "test" + std::to_string(file_index) + "_result.txt";
-    std::ofstream ofs(out_file_name);
+    std::ofstream ofs;
+    ofs.open(out_file_name);
+
+    // std::fstream ofs;
+    // ofs.open(out_file_name, std::ios::out);
 
     
-    // bool isFound = bin_tree.search(val);
-    // if (isFound == true) {
-    //     struct Node* return_node = bin_tree.get_return_node();
-    //     ofs << "Found " << return_node->tag << " " << return_node->value << "\n\n";
+    bool isFound = bin_tree.search(val);
+    if (isFound == true) {
+        struct Node* return_node = bin_tree.get_return_node();
+        ofs << "Found " << return_node->tag << " " << return_node->value << "\n\n";
+    }
+    else if (isFound == false) {
+        ofs << "Could not Found " << val << "\n\n";
+    }
+    
+    bin_tree.store_results(root, ofs);
+
+    // std::string tag = bin_tree.search2(val, root);
+    // if (tag != "") {
+    //     ofs << "Found " << tag << " " << val << "\n\n";
     // }
-    // else if (isFound == false) {
+    // else if (tag == "") {
     //     ofs << "Could not Found " << val << "\n\n";
     // }
     // bin_tree.store_results(root, ofs);
-    
-
-    std::string tag = bin_tree.search2(val, root);
-    if (tag != "") {
-        ofs << "Found " << tag << " " << val << "\n\n";
-    }
-    else if (tag == "") {
-        ofs << "Could not Found " << val << "\n\n";
-    }
-    bin_tree.store_results(root, ofs);
 
     std::cout << "\n";
     // std::cout << "sorted results: \n";
@@ -235,7 +240,7 @@ int main() {
     std::cout << "\n";
     
     // bin_tree.search(val);
-    ofs.close();
+    // ofs.close();
     return 0;
 }
 
