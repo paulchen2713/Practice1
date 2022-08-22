@@ -104,14 +104,14 @@ int main() {
     std::vector<std::pair<std::string, int>> sorted;
 
     // read data from file
-    int file_index = 2;
+    int file_index = 3;
     // std::cout << "please enter the file index (e.g. 1~4): ";
     // std::cin >> file_index;
     
     std::string file_path = "D:/C++/sort_binary_search/Input" + std::to_string(file_index) + ".txt";
     initialize(file_path, umap); // buffer
 
-    int val = 934;
+    int val = 935;
     // std::cout << "please enter an integer to be searched: ";
     // std::cin >> val;
 
@@ -120,6 +120,8 @@ int main() {
     // std::cout << "binary search 1st occur index: " << index << std::endl;
 
     // print_map(umap);
+    print_arr(sorted);
+    std::cout << "size: " << sorted.size() << "\n";
 
     std::cout << "Input File: " << file_path << "\n";
 
