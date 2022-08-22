@@ -31,7 +31,7 @@ void initialize(std::string file_path, std::unordered_map<std::string, int>& uma
     ifs.close();
 }
 
-void print_map(std::unordered_map<std::string, int>& umap) {
+void print_map(const std::unordered_map<std::string, int>& umap) {
     for (const std::pair<std::string, int>& a : umap) {
         std::cout << "key: " << a.first << ", val: " << a.second << "\n";
     }
@@ -59,12 +59,49 @@ bool brute_force_search(std::unordered_map<std::string, int>& umap, std::string 
     return false;
 }
 
-// void quick_sort()
+std::vector<std::pair<std::string, int>> quick_sort(const std::unordered_map<std::string, int>& umap) {
+    std::vector<std::pair<std::string, int>> elements(umap.begin(), umap.end());
+    std::sort(elements.begin(), elements.end(), [](std::pair<std::string, int> a, std::pair<std::string, int> b) {
+        return a.second < b.second;
+    });
+    for (int i = 0; i < elements.size(); i++) {
+        std::cout << i << " ";
+        std::cout << elements[i].first << " " << elements[i].second << "\n";
+    }
+    std::cout << "size: " << elements.size() << "\n";
+    return elements;
+}
 
-// bool binary_search()
+int binary_search(const std::vector<std::pair<std::string, int>>& arr, int target) {
+    const int n = arr.size();
+    int left = 0, right = n;
+    while (left < right) {
+        int middle = left + (right - left) / 2;
+        if (arr[middle].second == target) {
+            return middle;
+        }
+        else if (target > arr[middle].second) {
+            left = middle + 1;
+        }
+        else if (target < arr[middle].second) {
+            right = middle;
+        }
+    }
+    return -1;
+}
+
+int first_occur(const std::vector<std::pair<std::string, int>>& arr, int target) {
+    int index = binary_search(arr, target);
+    if (index == -1) return -1;
+    for (int i = index; i > 0 && arr[i].second == target; i--) {
+        index = i;
+    }
+    return index;
+}
 
 int main() {
     std::unordered_map<std::string, int> umap;
+    std::vector<std::pair<std::string, int>> sorted;
 
     // read data from file
     int file_index = 2;
@@ -72,19 +109,25 @@ int main() {
     // std::cin >> file_index;
     
     std::string file_path = "D:/C++/sort_binary_search/Input" + std::to_string(file_index) + ".txt";
-    initialize(file_path, umap);
+    initialize(file_path, umap); // buffer
 
-    int val = 754;
+    int val = 937;
     // std::cout << "please enter an integer to be searched: ";
     // std::cin >> val;
+
+    sorted = quick_sort(umap);
+    int index = first_occur(sorted, val);
+    std::cout << "binary search 1st occur index: " << index << std::endl;
     
-    brute_force_search(umap, val);
-    std::cout << "\n";
-    brute_force_search(umap, "A100");
+    // brute_force_search(umap, val);
+    // std::cout << "\n";
+    // brute_force_search(umap, "A100");
+
+    // print_map(umap);
 
     std::cout << "Input File: " << file_path << "\n";
 
-    // print_map(umap);
+    
 
     // write results to a file
     std::string out_file_name = "D:/C++/sort_binary_search/test" + std::to_string(file_index) + "_result.txt";
