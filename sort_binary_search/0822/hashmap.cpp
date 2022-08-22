@@ -46,7 +46,7 @@ void print_arr(const std::vector<std::pair<std::string, int>>& elements) {
     // std::cout << "size: " << elements.size() << "\n";
 }
 
-std::vector<std::pair<std::string, int>> quick_sort(const std::unordered_map<std::string, int>& umap) {
+std::vector<std::pair<std::string, int>> sort(const std::unordered_map<std::string, int>& umap) {
     std::vector<std::pair<std::string, int>> elements(umap.begin(), umap.end());
     std::sort(elements.begin(), elements.end(), [](std::pair<std::string, int>& a, std::pair<std::string, int>& b) {
         return a.second < b.second;
@@ -104,23 +104,23 @@ int main() {
     std::vector<std::pair<std::string, int>> sorted;
 
     // read data from file
-    int file_index = 3;
-    // std::cout << "please enter the file index (e.g. 1~4): ";
-    // std::cin >> file_index;
+    int file_index = 4;
+    std::cout << "please enter the file index (e.g. 1~4): ";
+    std::cin >> file_index;
     
     std::string file_path = "D:/C++/sort_binary_search/Input" + std::to_string(file_index) + ".txt";
     initialize(file_path, umap); // buffer
 
-    int val = 935;
-    // std::cout << "please enter an integer to be searched: ";
-    // std::cin >> val;
+    int val = 1000;
+    std::cout << "please enter an integer to be searched: ";
+    std::cin >> val;
 
-    sorted = quick_sort(umap);
+    sorted = sort(umap);
     // int index = first_occur(sorted, val);
     // std::cout << "binary search 1st occur index: " << index << std::endl;
 
     // print_map(umap);
-    print_arr(sorted);
+    // print_arr(sorted);
     std::cout << "size: " << sorted.size() << "\n";
 
     std::cout << "Input File: " << file_path << "\n";
