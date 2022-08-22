@@ -35,40 +35,23 @@ void print_map(const std::unordered_map<std::string, int>& umap) {
     for (const std::pair<std::string, int>& a : umap) {
         std::cout << "key: " << a.first << ", val: " << a.second << "\n";
     }
-    std::cout << "size: " << umap.size() << "\n";
+    // std::cout << "size: " << umap.size() << "\n";
 }
 
-bool brute_force_search(std::unordered_map<std::string, int>& umap, int target_val) {
-    for (const std::pair<std::string, int>& a : umap) {
-        if (a.second == target_val) {
-            std::cout << a.first << " ";
-            return true;
-        }
+void print_arr(const std::vector<std::pair<std::string, int>>& elements) {
+    for (int i = 0; i < elements.size(); i++) {
+        // std::cout << i << " ";
+        std::cout << elements[i].first << " " << elements[i].second << "\n";
     }
-    return false;
-}
-
-bool brute_force_search(std::unordered_map<std::string, int>& umap, std::string target_key) {
-    for (const std::pair<std::string, int>& a : umap) {
-        if (a.first == target_key) {
-            std::cout << "Found " << target_key << " " << a.second << "\n";
-            return true;
-        }
-    }
-    std::cout << "Could not found " << target_key << "\n";
-    return false;
+    // std::cout << "size: " << elements.size() << "\n";
 }
 
 std::vector<std::pair<std::string, int>> quick_sort(const std::unordered_map<std::string, int>& umap) {
     std::vector<std::pair<std::string, int>> elements(umap.begin(), umap.end());
-    std::sort(elements.begin(), elements.end(), [](std::pair<std::string, int> a, std::pair<std::string, int> b) {
+    std::sort(elements.begin(), elements.end(), [](std::pair<std::string, int>& a, std::pair<std::string, int>& b) {
         return a.second < b.second;
     });
-    for (int i = 0; i < elements.size(); i++) {
-        std::cout << i << " ";
-        std::cout << elements[i].first << " " << elements[i].second << "\n";
-    }
-    std::cout << "size: " << elements.size() << "\n";
+    // print_arr(elements);
     return elements;
 }
 
@@ -99,6 +82,23 @@ int first_occur(const std::vector<std::pair<std::string, int>>& arr, int target)
     return index;
 }
 
+void search(const std::vector<std::pair<std::string, int>>& arr, int target) {
+    int start = binary_search(arr, target);
+    if (start == -1) {
+        std::cout << "Could not find " << target << "\n";
+        return;
+    }
+    // if there are duplicates exist, then we want to get the 1st occurance index, stores it as start
+    for (int i = start; i > 0 && arr[i].second == target; i--) {
+        start = i;
+    }
+    std::cout << "Found ";
+    for (int i = start; arr[i].second == target; i++) {
+        std::cout << arr[i].first << " ";
+    }
+    std::cout << target << "\n";
+}
+
 int main() {
     std::unordered_map<std::string, int> umap;
     std::vector<std::pair<std::string, int>> sorted;
@@ -111,30 +111,32 @@ int main() {
     std::string file_path = "D:/C++/sort_binary_search/Input" + std::to_string(file_index) + ".txt";
     initialize(file_path, umap); // buffer
 
-    int val = 937;
+    int val = 934;
     // std::cout << "please enter an integer to be searched: ";
     // std::cin >> val;
 
     sorted = quick_sort(umap);
-    int index = first_occur(sorted, val);
-    std::cout << "binary search 1st occur index: " << index << std::endl;
-    
-    // brute_force_search(umap, val);
-    // std::cout << "\n";
-    // brute_force_search(umap, "A100");
+    // int index = first_occur(sorted, val);
+    // std::cout << "binary search 1st occur index: " << index << std::endl;
 
     // print_map(umap);
 
     std::cout << "Input File: " << file_path << "\n";
 
-    
-
     // write results to a file
     std::string out_file_name = "D:/C++/sort_binary_search/test" + std::to_string(file_index) + "_result.txt";
-    // std::ofstream ofs;
-    // ofs.open(out_file_name);
+    std::ofstream ofs;
+    ofs.open(out_file_name);
 
-    // ofs.close();
+    auto cout_buff = std::cout.rdbuf(); 
+    std::cout.rdbuf(ofs.rdbuf());
+
+    search(sorted, val);
+    std::cout << "\n";
+    print_arr(sorted);
+
+    std::cout.rdbuf(cout_buff);
+    ofs.close();
 
     std::cout << "Output File: " << out_file_name << "\n\n";
     return 0;
