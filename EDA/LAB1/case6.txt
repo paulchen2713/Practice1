@@ -1,0 +1,35 @@
+Gate delay :
+(g1,6)
+(g2,8)
+(g3,4)
+(g4,5)
+(g5,7)
+(g6,10)
+(g7,5)
+(g8,6)
+(g9,11)
+(g10,14)
+END Gate delay
+
+Dependency
+#From		To
+R1	->	g2
+g2	->	g3
+g2	->	g5
+g3	->	g5
+g5	->	R2
+g4	->	g3
+g4	->	g5
+R4	->	g1
+g1	->	R1
+R4	->	g4
+R2	->	g6
+R2	->	g7
+g6	->	g7
+g7	->	R3
+R3	->	g8
+R3	->	g9
+g8	->	g10
+g9	->	g10
+g10	->	R4
+END
